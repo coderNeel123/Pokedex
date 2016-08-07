@@ -13,6 +13,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var buttonTapped: UIButton!
     
     var pokemon = [Pokemon]()
     var musicPlayer: AVAudioPlayer!
@@ -20,6 +21,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var filteredPokemon = [Pokemon]()
     var noPokemon = [Pokemon]()
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,7 +33,16 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         parsePokemonCSV()
         
         beginAudio()
+        
+        
+        buttonTapped.hidden = true
     
+    
+    }
+    
+    func handleTap() {
+        view.endEditing(true)
+        buttonTapped.hidden = true
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -148,7 +159,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchBar.text == nil || searchBar.text == ""{
+            if searchBar.text == nil {
             isInSearchMode = false
             view.endEditing(true)
             collectionView.reloadData()
@@ -156,16 +167,26 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
         else {
             isInSearchMode = true
+            buttonTapped.hidden = false
             let lower = searchBar.text!.lowercaseString
             filteredPokemon = pokemon.filter({$0.name.rangeOfString(lower) != nil})
+            if searchBar.text == "" {
+                filteredPokemon = pokemon
+            }
             collectionView.reloadData()
+            
         }
     }
+
     
+    @IBAction func buttonTapped(sender: AnyObject) {
+        handleTap()
+    }
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         view.endEditing(true)
         searchBar.placeholder = "Search for Pokemon"
         }
+
     
 }
 

@@ -22,6 +22,11 @@ class Pokemon {
     private var _pokemonUrl: String!
     private var _nextEvolutionId: String!
     private var _nextEvolutionLevel: String!
+    private var _move1: String!
+    private var _move2: String!
+    private var _move3: String!
+    private var _move4: String!
+    private var _move5: String!
     
     var name: String {
         get {
@@ -30,6 +35,18 @@ class Pokemon {
     }
     var pokedexId: Int {
         get {
+            if _pokedexId == 125 {
+                _nextEvolutionText = "Electivire"
+                _nextEvolutionId = "466"
+            }
+            if _pokedexId == 34 {
+                _nextEvolutionText = ""
+                _nextEvolutionId = ""
+            }
+            if _pokedexId == 121 {
+                _nextEvolutionText = ""
+                _nextEvolutionId = ""
+            }
             return _pokedexId
         }
     }
@@ -38,6 +55,24 @@ class Pokemon {
             if _description == nil {
                 _description = ""
             }
+            if _description.containsString("POKMON") {
+                let newDescription = _description.stringByReplacingOccurrencesOfString("POKMON", withString: "pokemon")
+                _description = newDescription
+            }
+            if _description.containsString("POKMON'S") {
+                let newDescription = _description.stringByReplacingOccurrencesOfString("POKMON'S", withString: "pokemon's")
+                _description = newDescription
+            }
+            if _description.containsString("POKBAllS") {
+                let newDescription = _description.stringByReplacingOccurrencesOfString("POKBALLS", withString: "pokeballs")
+                _description = newDescription
+            }
+            if _description.containsString("POKBAll") {
+                let newDescription = _description.stringByReplacingOccurrencesOfString("POKBALL", withString: "pokeball")
+                _description = newDescription
+            }
+            
+            
             return _description
         }
     }
@@ -103,6 +138,46 @@ class Pokemon {
                 _nextEvolutionLevel = ""
             }
             return _nextEvolutionLevel
+        }
+    }
+    var move1: String {
+        get {
+            if _move1 == nil {
+                _move1 = ""
+            }
+            return _move1
+        }
+    }
+    var move2: String {
+        get {
+            if _move2 == nil {
+                _move2 = ""
+            }
+            return _move2
+        }
+    }
+    var move3: String {
+        get {
+            if _move3 == nil {
+                _move3 = ""
+            }
+            return _move3
+        }
+    }
+    var move4: String {
+        get {
+            if _move4 == nil {
+                _move4 = ""
+            }
+            return _move4
+        }
+    }
+    var move5: String {
+        get {
+            if _move5 == nil {
+                _move5 = ""
+            }
+            return _move5
         }
     }
     
@@ -182,6 +257,50 @@ class Pokemon {
                             }
                         }
                     }
+                }
+                
+                if let moves = dict["moves"] as? [Dictionary<String,AnyObject>] where moves.count > 0{
+                    if let move1 = moves[0]["name"] as? String {
+                        self._move1 = move1.capitalizedString
+                    }
+                    else {
+                        self._move1 = ""
+                    }
+                    
+                    if moves.count >= 2 {
+                        if let move2 = moves[1]["name"] as? String {
+                            self._move2 = move2.capitalizedString
+                        }
+                        else {
+                            self._move2 = ""
+                        }
+                    }
+                    
+                    if moves.count >= 3 {
+                        if let move3 = moves[2]["name"] as? String {
+                            self._move3 = move3.capitalizedString
+                        }
+                        else {
+                            self._move3 = ""
+                        }
+                    }
+                    if moves.count >= 4 {
+                        if let move4 = moves[3]["name"] as? String {
+                            self._move4 = move4.capitalizedString
+                        }
+                        else {
+                            self._move4 = ""
+                        }
+                    }
+                    if moves.count >= 5 {
+                        if let move5 = moves[4]["name"] as? String {
+                            self._move5 = move5.capitalizedString
+                        }
+                        else {
+                            self._move5 = ""
+                        }
+                    }
+                    
                 }
                 
             }
